@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.process.repository.ProcessMapper">
+    <resultMap type="com.cnuip.process.vo.ProcessListVo" id="extendMap" extends="com.cnuip.process.repository.base.ProcessBaseMapper.baseMap">
+        <result column="is_examined" property="isExamined"></result>
+    </resultMap>
+
+    <resultMap type="com.cnuip.base.domain.user.User" id="userMap">
+    </resultMap>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.organizationId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> organization_id = #{params.organizationId}
+                </if>
+                <if test="params.tmplProcessId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> tmpl_process_id = #{params.tmplProcessId}
+                </if>
+                <if test="params.no!=null and params.no!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> no = #{params.no} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> no LIKE CONCAT(#{params.no}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> no LIKE CONCAT('%', #{params.no}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> no LIKE CONCAT('%', #{params.no}, '%') </if>
+                </if>
+                <if test="params.name!=null and params.name!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> name = #{params.name} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> name LIKE CONCAT(#{params.name}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> name LIKE CONCAT('%', #{params.name}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> name LIKE CONCAT('%', #{params.name}, '%') </if>
+                </if>
+                <if test="params.category!=null and params.category!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> category = #{params.category} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> category LIKE CONCAT(#{params.category}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> category LIKE CONCAT('%', #{params.category}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> category LIKE CONCAT('%', #{params.category}, '%') </if>
+                </if>
+                <if test="params.patentType!=null and params.patentType!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> patent_type = #{params.patentType} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> patent_type LIKE CONCAT(#{params.patentType}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> patent_type LIKE CONCAT('%', #{params.patentType}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> patent_type LIKE CONCAT('%', #{params.patentType}, '%') </if>
+                </if>
+                <if test="params.pa!=null and params.pa!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> pa = #{params.pa} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> pa LIKE CONCAT(#{params.pa}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> pa LIKE CONCAT('%', #{params.pa}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> pa LIKE CONCAT('%', #{params.pa}, '%') </if>
+                </if>
+                <if test="params.pin!=null and params.pin!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> pin = #{params.pin} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> pin LIKE CONCAT(#{params.pin}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> pin LIKE CONCAT('%', #{params.pin}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> pin LIKE CONCAT('%', #{params.pin}, '%') </if>
+                </if>
+                <if test="params.source!=null and params.source!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> source = #{params.source} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> source LIKE CONCAT(#{params.source}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> source LIKE CONCAT('%', #{params.source}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> source LIKE CONCAT('%', #{params.source}, '%') </if>
+                </if>
+                <if test="params.teamId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> team_id = #{params.teamId}
+                </if>
+                <if test="params.teamName!=null and params.teamName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> team_name = #{params.teamName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> team_name LIKE CONCAT(#{params.teamName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> team_name LIKE CONCAT('%', #{params.teamName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> team_name LIKE CONCAT('%', #{params.teamName}, '%') </if>
+                </if>
+                <if test="params.state!=null and params.state!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> state = #{params.state} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> state LIKE CONCAT(#{params.state}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> state LIKE CONCAT('%', #{params.state}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> state LIKE CONCAT('%', #{params.state}, '%') </if>
+                </if>
+                <if test="params.editorId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> editor_id = #{params.editorId}
+                </if>
+                <if test="params.editorName!=null and params.editorName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> editor_name = #{params.editorName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> editor_name LIKE CONCAT(#{params.editorName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> editor_name LIKE CONCAT('%', #{params.editorName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> editor_name LIKE CONCAT('%', #{params.editorName}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <select id="selectProcessForEditor" resultMap="extendMap">
+        SELECT * FROM (SELECT a.*,b.is_examined,b.process_task_id FROM
+        (SELECT * FROM pro_process <include refid="wherestr"></include>) a,
+        (SELECT a.process_id,b.is_examined,b.process_task_id FROM pro_process_task a,
+        (SELECT process_task_id,is_examined FROM pro_process_task_user WHERE examin_id = ${userId}) b
+        WHERE a.id = b.process_task_id AND a.tmpl_process_task_no = 0) b WHERE a.id = b.process_id UNION ALL
+        SELECT a.*,b.is_examined AS is_examined,b.process_task_id FROM
+        (SELECT * FROM pro_process <include refid="wherestr"></include>) a,
+        (SELECT a.process_id,b.process_task_id,b.is_examined FROM pro_process_task a,
+        (SELECT a.process_id,a.tmpl_process_task_no-1 AS task_no,b.process_task_id,b.is_examined FROM pro_process_task a,
+        (SELECT process_task_id,is_examined FROM pro_process_task_user WHERE examin_id = ${userId}) b
+        WHERE a.id = b.process_task_id AND a.tmpl_process_task_no > 0) b
+        WHERE a.process_id = b.process_id AND a.tmpl_process_task_no = b.task_no AND a.is_finished = 'YES') b WHERE a.id = b.process_id) c
+        WHERE c.state NOT IN ('UNEXAMINED') OR (c.state = 'UNEXAMINED' AND c.is_examined NOT IN ('NONE'))
+        <include refid="orderbystr"></include>
+    </select>
+
+    <select id="selectProcessUser" resultMap="userMap">
+        SELECT DISTINCT(editor_id),editor_name FROM pro_process
+        WHERE  organization_id = #{orgId}
+    </select>
+
+    <select id="selectCopyProcess" resultMap="extendMap">
+        SELECT a.* FROM (SELECT * FROM pro_process <include refid="wherestr"></include>) a,
+        (SELECT DISTINCT(process_id) FROM pro_process_person WHERE person_id = #{userId}) b
+        WHERE a.id = b.process_id AND a.state = 'FINISHED'
+    </select>
+</mapper>

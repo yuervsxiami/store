@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.base.RoleBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.user.Role" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="organizationId" column="organization_id"/>
+        <result property="name" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="editorName" column="editor_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='organizationId'"> organization_id=#{value}, </if>
+            <if test="field=='name'"> name=#{value}, </if>
+            <if test="field=='remark'"> remark=#{value}, </if>
+            <if test="field=='isDelete'"> is_delete=#{value}, </if>
+            <if test="field=='editorId'"> editor_id=#{value}, </if>
+            <if test="field=='editorName'"> editor_name=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.organizationId!=null"> organization_id=#{record.organizationId}, </if>
+            <if test="record.name!=null"> name=#{record.name}, </if>
+            <if test="record.remark!=null"> remark=#{record.remark}, </if>
+            <if test="record.isDelete!=null"> is_delete=#{record.isDelete}, </if>
+            <if test="record.editorId!=null"> editor_id=#{record.editorId}, </if>
+            <if test="record.editorName!=null"> editor_name=#{record.editorName}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.organizationId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> organization_id = #{params.organizationId}
+                </if>
+                <if test="params.name!=null and params.name!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> name = #{params.name} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> name LIKE CONCAT(#{params.name}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> name LIKE CONCAT('%', #{params.name}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> name LIKE CONCAT('%', #{params.name}, '%') </if>
+                </if>
+                <if test="params.remark!=null and params.remark!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> remark = #{params.remark} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> remark LIKE CONCAT(#{params.remark}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> remark LIKE CONCAT('%', #{params.remark}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> remark LIKE CONCAT('%', #{params.remark}, '%') </if>
+                </if>
+                <if test="params.isDelete!=null and params.isDelete!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> is_delete = #{params.isDelete} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> is_delete LIKE CONCAT(#{params.isDelete}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> is_delete LIKE CONCAT('%', #{params.isDelete}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> is_delete LIKE CONCAT('%', #{params.isDelete}, '%') </if>
+                </if>
+                <if test="params.editorId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> editor_id = #{params.editorId}
+                </if>
+                <if test="params.editorName!=null and params.editorName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> editor_name = #{params.editorName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> editor_name LIKE CONCAT(#{params.editorName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> editor_name LIKE CONCAT('%', #{params.editorName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> editor_name LIKE CONCAT('%', #{params.editorName}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mbr_role(organization_id,name,remark,is_delete,editor_id,editor_name)
+        VALUES(#{organizationId},#{name},#{remark},#{isDelete},#{editorId},#{editorName})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM mbr_role WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM mbr_role WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM mbr_role
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE mbr_role
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE mbr_role
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE mbr_role
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM mbr_role
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM mbr_role WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM mbr_role WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM mbr_role
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM mbr_role
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM mbr_role WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM mbr_role
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.authorize.repository.AuthorizeMapper">
+    <resultMap type="com.cnuip.base.domain.authorize.Authorize" id="extendMap"
+               extends="com.cnuip.authorize.repository.base.AuthorizeBaseMapper.baseMap">
+    </resultMap>
+
+    <!-- 已测试 -->
+    <select id="selectAuthorizeList" resultMap="extendMap">
+        SELECT * FROM aut_authorize
+        <if test="authorizeModel!=null">
+            <where>
+                <if test="authorizeModel.no!=null and authorizeModel.no!=''">
+                    AND no LIKE CONCAT('%', #{authorizeModel.no}, '%')
+                </if>
+                <if test="authorizeModel.state!=null and authorizeModel.state!=''">
+                    AND state = #{authorizeModel.state}
+                </if>
+                <if test="authorizeModel.userId!=null">
+                    AND editor_id = #{authorizeModel.userId}
+                </if>
+                <if test="authorizeModel.userId==null">
+                    AND organization_id=#{orgId}
+                    <if test="authorizeModel.realName!=null and authorizeModel.realName!=''">
+                        AND editor_name LIKE CONCAT('%',
+                        #{authorizeModel.realName}, '%')
+                    </if>
+                </if>
+                <if test="authorizeModel.username!=null and authorizeModel.username!=''">
+                    AND editor_name LIKE CONCAT('%', #{authorizeModel.username}, '%')
+                </if>
+                <if test="authorizeModel.authorizePatentId!=null">
+                    AND id IN (SELECT authorize_id FROM aut_authorize_patent WHERE id =
+                    #{authorizeModel.authorizePatentId})
+                </if>
+                <if test="authorizeModel.ti!=null and authorizeModel.ti!=''">
+                    AND id IN (SELECT authorize_id FROM aut_authorize_patent WHERE ti LIKE CONCAT('%',
+                    #{authorizeModel.ti}, '%'))
+                </if>
+            </where>
+        </if>
+    </select>
+
+    <select id="searchAn" resultType="java.lang.String">
+        SELECT a.an FROM
+        (SELECT an,authorize_id FROM aut_authorize_patent WHERE pa LIKE CONCAT('%',#{orgName}, '%') AND pin LIKE CONCAT('%',#{editorName},'%')) a,
+        (SELECT id FROM aut_authorize WHERE state IN ('EXAMINED','EXAMINING')) b
+        WHERE a.authorize_id = b.id
+    </select>
+</mapper>

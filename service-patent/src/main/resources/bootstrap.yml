@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: store2-service-patent
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: service-config
+#      profile: pro
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+#      defaultZone: http://172.16.250.212:8761/eureka/,http://172.16.250.213:8761/eureka/
+      defaultZone: http://192.168.20.51:8761/eureka/

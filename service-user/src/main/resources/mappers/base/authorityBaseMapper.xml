@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.base.AuthorityBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.user.Authority" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="title" column="title"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="url" column="url"/>
+        <result property="icon" column="icon"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="editorName" column="editor_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='type'"> type=#{value}, </if>
+            <if test="field=='name'"> name=#{value}, </if>
+            <if test="field=='title'"> title=#{value}, </if>
+            <if test="field=='parentId'"> parent_id=#{value}, </if>
+            <if test="field=='sortOrder'"> sort_order=#{value}, </if>
+            <if test="field=='url'"> url=#{value}, </if>
+            <if test="field=='icon'"> icon=#{value}, </if>
+            <if test="field=='editorId'"> editor_id=#{value}, </if>
+            <if test="field=='editorName'"> editor_name=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.type!=null"> type=#{record.type}, </if>
+            <if test="record.name!=null"> name=#{record.name}, </if>
+            <if test="record.title!=null"> title=#{record.title}, </if>
+            <if test="record.parentId!=null"> parent_id=#{record.parentId}, </if>
+            <if test="record.sortOrder!=null"> sort_order=#{record.sortOrder}, </if>
+            <if test="record.url!=null"> url=#{record.url}, </if>
+            <if test="record.icon!=null"> icon=#{record.icon}, </if>
+            <if test="record.editorId!=null"> editor_id=#{record.editorId}, </if>
+            <if test="record.editorName!=null"> editor_name=#{record.editorName}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.type!=null and params.type!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> type = #{params.type} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> type LIKE CONCAT(#{params.type}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> type LIKE CONCAT('%', #{params.type}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> type LIKE CONCAT('%', #{params.type}, '%') </if>
+                </if>
+                <if test="params.name!=null and params.name!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> name = #{params.name} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> name LIKE CONCAT(#{params.name}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> name LIKE CONCAT('%', #{params.name}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> name LIKE CONCAT('%', #{params.name}, '%') </if>
+                </if>
+                <if test="params.title!=null and params.title!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> title = #{params.title} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> title LIKE CONCAT(#{params.title}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> title LIKE CONCAT('%', #{params.title}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> title LIKE CONCAT('%', #{params.title}, '%') </if>
+                </if>
+                <if test="params.parentId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> parent_id = #{params.parentId}
+                </if>
+                <if test="params.sortOrderFrom!=null and params.sortOrderTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    sort_order&gt;=#{params.sortOrderFrom}
+                </if>
+                <if test="params.sortOrderFrom==null and params.sortOrderTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    sort_order&lt;=#{params.sortOrderTo}
+                </if>
+                <if test="params.sortOrderFrom!=null and params.sortOrderTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (sort_order BETWEEN #{params.sortOrderFrom} AND #{params.sortOrderTo})
+                </if>
+                <if test="params.url!=null and params.url!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> url = #{params.url} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> url LIKE CONCAT(#{params.url}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> url LIKE CONCAT('%', #{params.url}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> url LIKE CONCAT('%', #{params.url}, '%') </if>
+                </if>
+                <if test="params.icon!=null and params.icon!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> icon = #{params.icon} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> icon LIKE CONCAT(#{params.icon}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> icon LIKE CONCAT('%', #{params.icon}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> icon LIKE CONCAT('%', #{params.icon}, '%') </if>
+                </if>
+                <if test="params.editorId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> editor_id = #{params.editorId}
+                </if>
+                <if test="params.editorName!=null and params.editorName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> editor_name = #{params.editorName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> editor_name LIKE CONCAT(#{params.editorName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> editor_name LIKE CONCAT('%', #{params.editorName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> editor_name LIKE CONCAT('%', #{params.editorName}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mbr_authority(type,name,title,parent_id,sort_order,url,icon,editor_id,editor_name)
+        VALUES(#{type},#{name},#{title},#{parentId},#{sortOrder},#{url},#{icon},#{editorId},#{editorName})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM mbr_authority WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM mbr_authority WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM mbr_authority
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE mbr_authority
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE mbr_authority
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE mbr_authority
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM mbr_authority
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM mbr_authority WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM mbr_authority WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM mbr_authority
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM mbr_authority
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM mbr_authority WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM mbr_authority
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

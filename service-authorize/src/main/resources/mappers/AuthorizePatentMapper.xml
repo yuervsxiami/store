@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.authorize.repository.AuthorizePatentMapper">
+    <resultMap type="com.cnuip.base.domain.authorize.AuthorizePatent" id="extendMap" extends="com.cnuip.authorize.repository.base.AuthorizePatentBaseMapper.baseMap">
+    </resultMap>
+
+    <select id="checkAn" resultMap="extendMap">
+        SELECT a.* FROM
+        (SELECT * FROM aut_authorize_patent WHERE an = #{an}) a,
+        (SELECT id FROM aut_authorize WHERE state IN ('ADOPT','EXAMINING') AND organization_id = #{orgId}) b
+        WHERE a.authorize_id = b.id
+    </select>
+</mapper>

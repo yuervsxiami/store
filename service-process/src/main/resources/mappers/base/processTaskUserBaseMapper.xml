@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.process.repository.base.ProcessTaskUserBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.process.ProcessTaskUser" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="processId" column="process_id"/>
+        <result property="processTaskId" column="process_task_id"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="examinId" column="examin_id"/>
+        <result property="examinName" column="examin_name"/>
+        <result property="isExamined" column="is_examined"/>
+        <result property="remark" column="remark"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='processId'"> process_id=#{value}, </if>
+            <if test="field=='processTaskId'"> process_task_id=#{value}, </if>
+            <if test="field=='departmentId'"> department_id=#{value}, </if>
+            <if test="field=='examinId'"> examin_id=#{value}, </if>
+            <if test="field=='examinName'"> examin_name=#{value}, </if>
+            <if test="field=='isExamined'"> is_examined=#{value}, </if>
+            <if test="field=='remark'"> remark=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.processId!=null"> process_id=#{record.processId}, </if>
+            <if test="record.processTaskId!=null"> process_task_id=#{record.processTaskId}, </if>
+            <if test="record.departmentId!=null"> department_id=#{record.departmentId}, </if>
+            <if test="record.examinId!=null"> examin_id=#{record.examinId}, </if>
+            <if test="record.examinName!=null"> examin_name=#{record.examinName}, </if>
+            <if test="record.isExamined!=null"> is_examined=#{record.isExamined}, </if>
+            <if test="record.remark!=null"> remark=#{record.remark}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.processId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> process_id = #{params.processId}
+                </if>
+                <if test="params.processTaskId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> process_task_id = #{params.processTaskId}
+                </if>
+                <if test="params.departmentId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> department_id = #{params.departmentId}
+                </if>
+                <if test="params.examinId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> examin_id = #{params.examinId}
+                </if>
+                <if test="params.examinName!=null and params.examinName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> examin_name = #{params.examinName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> examin_name LIKE CONCAT(#{params.examinName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> examin_name LIKE CONCAT('%', #{params.examinName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> examin_name LIKE CONCAT('%', #{params.examinName}, '%') </if>
+                </if>
+                <if test="params.isExamined!=null and params.isExamined!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> is_examined = #{params.isExamined} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> is_examined LIKE CONCAT(#{params.isExamined}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> is_examined LIKE CONCAT('%', #{params.isExamined}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> is_examined LIKE CONCAT('%', #{params.isExamined}, '%') </if>
+                </if>
+                <if test="params.remark!=null and params.remark!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> remark = #{params.remark} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> remark LIKE CONCAT(#{params.remark}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> remark LIKE CONCAT('%', #{params.remark}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> remark LIKE CONCAT('%', #{params.remark}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pro_process_task_user(process_id,process_task_id,department_id,examin_id,examin_name,is_examined,remark)
+        VALUES(#{processId},#{processTaskId},#{departmentId},#{examinId},#{examinName},#{isExamined},#{remark})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM pro_process_task_user WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM pro_process_task_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM pro_process_task_user
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE pro_process_task_user
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE pro_process_task_user
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE pro_process_task_user
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM pro_process_task_user
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM pro_process_task_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

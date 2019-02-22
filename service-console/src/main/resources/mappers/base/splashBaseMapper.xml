@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.console.repository.base.SplashBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.console.Splash" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="url" column="url"/>
+        <result property="hrefUrl" column="href_url"/>
+        <result property="showStartTime" column="show_start_time"/>
+        <result property="showEndTime" column="show_end_time"/>
+        <result property="transientTime" column="transient_time"/>
+        <result property="state" column="state"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="editorName" column="editor_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='url'"> url=#{value}, </if>
+            <if test="field=='hrefUrl'"> href_url=#{value}, </if>
+            <if test="field=='showStartTime'"> show_start_time=#{value}, </if>
+            <if test="field=='showEndTime'"> show_end_time=#{value}, </if>
+            <if test="field=='transientTime'"> transient_time=#{value}, </if>
+            <if test="field=='state'"> state=#{value}, </if>
+            <if test="field=='editorId'"> editor_id=#{value}, </if>
+            <if test="field=='editorName'"> editor_name=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.url!=null"> url=#{record.url}, </if>
+            <if test="record.hrefUrl!=null"> href_url=#{record.hrefUrl}, </if>
+            <if test="record.showStartTime!=null"> show_start_time=#{record.showStartTime}, </if>
+            <if test="record.showEndTime!=null"> show_end_time=#{record.showEndTime}, </if>
+            <if test="record.transientTime!=null"> transient_time=#{record.transientTime}, </if>
+            <if test="record.state!=null"> state=#{record.state}, </if>
+            <if test="record.editorId!=null"> editor_id=#{record.editorId}, </if>
+            <if test="record.editorName!=null"> editor_name=#{record.editorName}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.url!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> url = #{params.url}
+                </if>
+
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_splash(url,href_url,show_start_time,show_end_time,transient_time,state,editor_id,editor_name)
+        VALUES(#{url},#{hrefUrl},#{showStartTime},#{showEndTime},#{transientTime},#{state},#{editorId},#{editorName})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM sys_splash WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM sys_splash WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM sys_splash
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE sys_splash
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE sys_splash
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE sys_splash
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM sys_splash
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM sys_splash WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM sys_splash WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM sys_splash
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM sys_splash
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM sys_splash WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM sys_splash
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

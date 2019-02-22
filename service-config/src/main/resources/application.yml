@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: service-config
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://58.213.198.76:10009/store/service-config-repo.git
+#          strict-host-key-checking: false
+          force-pull: true
+          search-paths: '{application}'
+          username: fangran
+          password: fangran123456
+server:
+  port: 8888
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+#      defaultZone: http://172.16.250.212:8761/eureka/,http://172.16.250.213:8761/eureka/
+      defaultZone: http://192.168.20.51:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

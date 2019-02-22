@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.console.repository.SplashMapper">
+    <resultMap type="com.cnuip.base.domain.console.Splash" id="extendMap" extends="com.cnuip.console.repository.base.SplashBaseMapper.baseMap">
+    </resultMap>
+    <resultMap type="com.cnuip.console.vo.SplashVo" id="splashVoMap" extends="com.cnuip.console.repository.base.SplashBaseMapper.baseMap">
+        <result property="timeState" column="time_state" />
+    </resultMap>
+    <select id="findValidSplash" resultMap="extendMap">
+        select * from sys_splash
+        where show_end_time&gt;#{endTime}
+    </select>
+
+    <select id="selectPagedSplash" resultMap="splashVoMap">
+        SELECT CASE
+        WHEN CURRENT_TIMESTAMP>show_start_time AND CURRENT_TIMESTAMP&lt;=show_end_time THEN '展示中'
+        WHEN show_end_time&lt; CURRENT_TIMESTAMP THEN '已过期'
+        WHEN show_start_time &gt;= CURRENT_TIMESTAMP  THEN '待开始'
+        ELSE '' END as time_state,
+        CASE
+        WHEN CURRENT_TIMESTAMP>show_start_time AND CURRENT_TIMESTAMP&lt;=show_end_time THEN 0
+        WHEN show_end_time&lt; CURRENT_TIMESTAMP THEN 2
+        WHEN show_start_time &gt;= CURRENT_TIMESTAMP  THEN 1
+        ELSE '' END  as orderseq
+        ,w.* from sys_splash w
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <select id="currentSplash" resultMap="extendMap">
+        select * from sys_splash
+        where show_end_time&gt;=#{currentTime} AND show_start_time&lt;#{currentTime} AND state='STARTUSING' limit 1
+    </select>
+</mapper>

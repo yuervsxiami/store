@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.VerifyCodeMapper">
+    <resultMap type="com.cnuip.base.domain.user.VerifyCode" id="extendMap"
+               extends="com.cnuip.user.repository.base.VerifyCodeBaseMapper.baseMap">
+    </resultMap>
+    <select id="compareTime" resultType="java.lang.Boolean">
+       select count(*)
+from (select TIMESTAMPDIFF(SECOND, #{createdTime}, now())as time)as time
+where time.time &lt;= 60
+    </select>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.process.repository.ProcessTaskMapper">
+    <resultMap type="com.cnuip.base.domain.process.ProcessTask" id="extendMap" extends="com.cnuip.process.repository.base.ProcessTaskBaseMapper.baseMap">
+    </resultMap>
+
+    <select id="selectNextTask" resultMap="extendMap">
+        SELECT *  FROM pro_process_task WHERE process_id = ${processId} AND tmpl_process_task_no >
+        (SELECT tmpl_process_task_no FROM pro_process_task WHERE id = ${processTaskId}) LIMIT 1
+    </select>
+</mapper>

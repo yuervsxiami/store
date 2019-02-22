@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.AuthorityMapper">
+    <resultMap type="com.cnuip.base.domain.user.Authority" id="extendMap"
+               extends="com.cnuip.user.repository.base.AuthorityBaseMapper.baseMap">
+    </resultMap>
+
+    <resultMap type="com.cnuip.user.vo.AuthorityVo" id="VoMap"
+               extends="com.cnuip.user.repository.base.AuthorityBaseMapper.baseMap">
+    </resultMap>
+
+    <select id="selectAuthorityVos" resultMap="VoMap">
+        SELECT b.* FROM mbr_role_authority a,mbr_authority b
+        WHERE a.authority_id=b.id
+        AND a.role_id=#{roleId}
+    </select>
+</mapper>

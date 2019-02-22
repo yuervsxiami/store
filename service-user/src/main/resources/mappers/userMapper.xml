@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.UserMapper">
+    <resultMap type="com.cnuip.base.domain.user.User" id="extendMap"
+               extends="com.cnuip.user.repository.base.UserBaseMapper.baseMap">
+    </resultMap>
+
+    <select id="queryDepartmentNone" resultMap="extendMap">
+        select * from mbr_user where (department_id is null or department_id=0) and username!='admin'
+        <if test="orgId!=null">
+            and organization_id=#{orgId}
+        </if>
+    </select>
+    <select id="queryDeptIdBase" resultType="java.lang.Long">
+        select distinct(department_id) from mbr_user
+        where  organization_id=#{orgId}
+        and powers_id=#{powersId}
+        and is_delete='NO'
+    </select>
+</mapper>

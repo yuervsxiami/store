@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.RequirementMapper">
+
+    <resultMap type="com.cnuip.user.vo.RequirementCountVo" id="countMap">
+        <result property="requirementNum" column="requirementNum"/>
+        <result property="noRequirementReplyNum" column="noRequirementReplyNum"/>
+    </resultMap>
+
+    <select id="countRequirement" resultMap="countMap">
+        SELECT count(*) AS requirementNum,COUNT(CASE WHEN IFNULL(reply_content,'') = '' THEN 0 ELSE NULL END) AS noRequirementReplyNum FROM mbr_requirement
+         WHERE user_id = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.process.repository.base.ProcessBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.process.Process" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="organizationId" column="organization_id"/>
+        <result property="tmplProcessId" column="tmpl_process_id"/>
+        <result property="type" column="type"/>
+        <result property="no" column="no"/>
+        <result property="name" column="name"/>
+        <result property="category" column="category"/>
+        <result property="patentType" column="patent_type"/>
+        <result property="pa" column="pa"/>
+        <result property="pin" column="pin"/>
+        <result property="source" column="source"/>
+        <result property="teamId" column="team_id"/>
+        <result property="teamName" column="team_name"/>
+        <result property="content" column="content"/>
+        <result property="remark" column="remark"/>
+        <result property="state" column="state"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="editorName" column="editor_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='organizationId'"> organization_id=#{value}, </if>
+            <if test="field=='tmplProcessId'"> tmpl_process_id=#{value}, </if>
+            <if test="field=='type'"> type=#{value}, </if>
+            <if test="field=='no'"> no=#{value}, </if>
+            <if test="field=='name'"> name=#{value}, </if>
+            <if test="field=='category'"> category=#{value}, </if>
+            <if test="field=='patentType'"> patent_type=#{value}, </if>
+            <if test="field=='pa'"> pa=#{value}, </if>
+            <if test="field=='pin'"> pin=#{value}, </if>
+            <if test="field=='source'"> source=#{value}, </if>
+            <if test="field=='teamId'"> team_id=#{value}, </if>
+            <if test="field=='teamName'"> team_name=#{value}, </if>
+            <if test="field=='content'"> content=#{value}, </if>
+            <if test="field=='remark'"> remark=#{value}, </if>
+            <if test="field=='state'"> state=#{value}, </if>
+            <if test="field=='editorId'"> editor_id=#{value}, </if>
+            <if test="field=='editorName'"> editor_name=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.organizationId!=null"> organization_id=#{record.organizationId}, </if>
+            <if test="record.tmplProcessId!=null"> tmpl_process_id=#{record.tmplProcessId}, </if>
+            <if test="record.type!=null"> type=#{record.type}, </if>
+            <if test="record.no!=null"> no=#{record.no}, </if>
+            <if test="record.name!=null"> name=#{record.name}, </if>
+            <if test="record.category!=null"> category=#{record.category}, </if>
+            <if test="record.patentType!=null"> patent_type=#{record.patentType}, </if>
+            <if test="record.pa!=null"> pa=#{record.pa}, </if>
+            <if test="record.pin!=null"> pin=#{record.pin}, </if>
+            <if test="record.source!=null"> source=#{record.source}, </if>
+            <if test="record.teamId!=null"> team_id=#{record.teamId}, </if>
+            <if test="record.teamName!=null"> team_name=#{record.teamName}, </if>
+            <if test="record.content!=null"> content=#{record.content}, </if>
+            <if test="record.remark!=null"> remark=#{record.remark}, </if>
+            <if test="record.state!=null"> state=#{record.state}, </if>
+            <if test="record.editorId!=null"> editor_id=#{record.editorId}, </if>
+            <if test="record.editorName!=null"> editor_name=#{record.editorName}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.organizationId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> organization_id = #{params.organizationId}
+                </if>
+                <if test="params.tmplProcessId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> tmpl_process_id = #{params.tmplProcessId}
+                </if>
+                <if test="params.type!=null and params.type!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> type = #{params.type} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> type LIKE CONCAT(#{params.type}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> type LIKE CONCAT('%', #{params.type}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> type LIKE CONCAT('%', #{params.type}, '%') </if>
+                </if>
+                <if test="params.no!=null and params.no!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> no = #{params.no} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> no LIKE CONCAT(#{params.no}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> no LIKE CONCAT('%', #{params.no}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> no LIKE CONCAT('%', #{params.no}, '%') </if>
+                </if>
+                <if test="params.name!=null and params.name!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> name = #{params.name} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> name LIKE CONCAT(#{params.name}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> name LIKE CONCAT('%', #{params.name}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> name LIKE CONCAT('%', #{params.name}, '%') </if>
+                </if>
+                <if test="params.category!=null and params.category!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> category = #{params.category} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> category LIKE CONCAT(#{params.category}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> category LIKE CONCAT('%', #{params.category}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> category LIKE CONCAT('%', #{params.category}, '%') </if>
+                </if>
+                <if test="params.patentType!=null and params.patentType!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> patent_type = #{params.patentType} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> patent_type LIKE CONCAT(#{params.patentType}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> patent_type LIKE CONCAT('%', #{params.patentType}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> patent_type LIKE CONCAT('%', #{params.patentType}, '%') </if>
+                </if>
+                <if test="params.pa!=null and params.pa!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> pa = #{params.pa} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> pa LIKE CONCAT(#{params.pa}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> pa LIKE CONCAT('%', #{params.pa}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> pa LIKE CONCAT('%', #{params.pa}, '%') </if>
+                </if>
+                <if test="params.pin!=null and params.pin!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> pin = #{params.pin} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> pin LIKE CONCAT(#{params.pin}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> pin LIKE CONCAT('%', #{params.pin}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> pin LIKE CONCAT('%', #{params.pin}, '%') </if>
+                </if>
+                <if test="params.source!=null and params.source!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> source = #{params.source} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> source LIKE CONCAT(#{params.source}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> source LIKE CONCAT('%', #{params.source}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> source LIKE CONCAT('%', #{params.source}, '%') </if>
+                </if>
+                <if test="params.teamId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> team_id = #{params.teamId}
+                </if>
+                <if test="params.teamName!=null and params.teamName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> team_name = #{params.teamName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> team_name LIKE CONCAT(#{params.teamName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> team_name LIKE CONCAT('%', #{params.teamName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> team_name LIKE CONCAT('%', #{params.teamName}, '%') </if>
+                </if>
+                <if test="params.state!=null and params.state!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> state = #{params.state} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> state LIKE CONCAT(#{params.state}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> state LIKE CONCAT('%', #{params.state}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> state LIKE CONCAT('%', #{params.state}, '%') </if>
+                </if>
+                <if test="params.editorId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> editor_id = #{params.editorId}
+                </if>
+                <if test="params.editorName!=null and params.editorName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> editor_name = #{params.editorName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> editor_name LIKE CONCAT(#{params.editorName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> editor_name LIKE CONCAT('%', #{params.editorName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> editor_name LIKE CONCAT('%', #{params.editorName}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pro_process(organization_id,tmpl_process_id,type,no,name,category,patent_type,pa,pin,source,team_id,team_name,content,remark,state,editor_id,editor_name)
+        VALUES(#{organizationId},#{tmplProcessId},#{type},#{no},#{name},#{category},#{patentType},#{pa},#{pin},#{source},#{teamId},#{teamName},#{content},#{remark},#{state},#{editorId},#{editorName})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM pro_process WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM pro_process WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM pro_process
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE pro_process
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE pro_process
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE pro_process
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM pro_process
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM pro_process WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM pro_process WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM pro_process
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM pro_process
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM pro_process WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM pro_process
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

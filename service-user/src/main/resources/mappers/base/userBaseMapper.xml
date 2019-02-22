@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.user.repository.base.UserBaseMapper">
+
+    <resultMap type="com.cnuip.base.domain.user.User" id="baseMap">
+        <id property="id" column="id"/>
+        <result property="organizationId" column="organization_id"/>
+        <result property="organizationName" column="organization_name"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="realName" column="real_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="phone" column="phone"/>
+        <result property="sex" column="sex"/>
+        <result property="nation" column="nation"/>
+        <result property="nativePlace" column="native_place"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="birthday" column="birthday"/>
+        <result property="wchat" column="wchat"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="title" column="title"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="departmentName" column="department_name"/>
+        <result property="postId" column="post_id"/>
+        <result property="postName" column="post_name"/>
+        <result property="powersId" column="powers_id"/>
+        <result property="powersName" column="powers_name"/>
+        <result property="direction" column="direction"/>
+        <result property="introduction" column="introduction"/>
+        <result property="honor" column="honor"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="editorId" column="editor_id"/>
+        <result property="editorName" column="editor_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <sql id="setfieldstr">
+        <set>
+            <if test="field=='organizationId'"> organization_id=#{value}, </if>
+            <if test="field=='organizationName'"> organization_name=#{value}, </if>
+            <if test="field=='username'"> username=#{value}, </if>
+            <if test="field=='password'"> password=#{value}, </if>
+            <if test="field=='realName'"> real_name=#{value}, </if>
+            <if test="field=='nickName'"> nick_name=#{value}, </if>
+            <if test="field=='phone'"> phone=#{value}, </if>
+            <if test="field=='sex'"> sex=#{value}, </if>
+            <if test="field=='nation'"> nation=#{value}, </if>
+            <if test="field=='nativePlace'"> native_place=#{value}, </if>
+            <if test="field=='idCardNo'"> id_card_no=#{value}, </if>
+            <if test="field=='birthday'"> birthday=#{value}, </if>
+            <if test="field=='wchat'"> wchat=#{value}, </if>
+            <if test="field=='imageUrl'"> image_url=#{value}, </if>
+            <if test="field=='title'"> title=#{value}, </if>
+            <if test="field=='departmentId'"> department_id=#{value}, </if>
+            <if test="field=='departmentName'"> department_name=#{value}, </if>
+            <if test="field=='postId'"> post_id=#{value}, </if>
+            <if test="field=='postName'"> post_name=#{value}, </if>
+            <if test="field=='powersId'"> powers_id=#{value}, </if>
+            <if test="field=='powersName'"> powers_name=#{value}, </if>
+            <if test="field=='direction'"> direction=#{value}, </if>
+            <if test="field=='introduction'"> introduction=#{value}, </if>
+            <if test="field=='honor'"> honor=#{value}, </if>
+            <if test="field=='isDelete'"> is_delete=#{value}, </if>
+            <if test="field=='editorId'"> editor_id=#{value}, </if>
+            <if test="field=='editorName'"> editor_name=#{value}, </if>
+        </set>
+    </sql>
+
+    <sql id="setstr">
+        <set>
+            <if test="record.organizationId!=null"> organization_id=#{record.organizationId}, </if>
+            <if test="record.organizationName!=null"> organization_name=#{record.organizationName}, </if>
+            <if test="record.username!=null"> username=#{record.username}, </if>
+            <if test="record.password!=null"> password=#{record.password}, </if>
+            <if test="record.realName!=null"> real_name=#{record.realName}, </if>
+            <if test="record.nickName!=null"> nick_name=#{record.nickName}, </if>
+            <if test="record.phone!=null"> phone=#{record.phone}, </if>
+            <if test="record.sex!=null"> sex=#{record.sex}, </if>
+            <if test="record.nation!=null"> nation=#{record.nation}, </if>
+            <if test="record.nativePlace!=null"> native_place=#{record.nativePlace}, </if>
+            <if test="record.idCardNo!=null"> id_card_no=#{record.idCardNo}, </if>
+            <if test="record.birthday!=null"> birthday=#{record.birthday}, </if>
+            <if test="record.wchat!=null"> wchat=#{record.wchat}, </if>
+            <if test="record.imageUrl!=null"> image_url=#{record.imageUrl}, </if>
+            <if test="record.title!=null"> title=#{record.title}, </if>
+            <if test="record.departmentId!=null"> department_id=#{record.departmentId}, </if>
+            <if test="record.departmentName!=null"> department_name=#{record.departmentName}, </if>
+            <if test="record.postId!=null"> post_id=#{record.postId}, </if>
+            <if test="record.postName!=null"> post_name=#{record.postName}, </if>
+            <if test="record.powersId!=null"> powers_id=#{record.powersId}, </if>
+            <if test="record.powersName!=null"> powers_name=#{record.powersName}, </if>
+            <if test="record.direction!=null"> direction=#{record.direction}, </if>
+            <if test="record.introduction!=null"> introduction=#{record.introduction}, </if>
+            <if test="record.honor!=null"> honor=#{record.honor}, </if>
+            <if test="record.isDelete!=null"> is_delete=#{record.isDelete}, </if>
+            <if test="record.editorId!=null"> editor_id=#{record.editorId}, </if>
+            <if test="record.editorName!=null"> editor_name=#{record.editorName}, </if>
+        </set>
+    </sql>
+
+    <sql id="wherestr">
+        <if test="params!=null">
+            <where>
+                <if test="params.organizationId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> organization_id = #{params.organizationId}
+                </if>
+                <if test="params.organizationName!=null and params.organizationName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> organization_name = #{params.organizationName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> organization_name LIKE CONCAT(#{params.organizationName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> organization_name LIKE CONCAT('%', #{params.organizationName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> organization_name LIKE CONCAT('%', #{params.organizationName}, '%') </if>
+                </if>
+                <if test="params.username!=null and params.username!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> username = #{params.username} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> username LIKE CONCAT(#{params.username}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> username LIKE CONCAT('%', #{params.username}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> username LIKE CONCAT('%', #{params.username}, '%') </if>
+                </if>
+                <if test="params.realName!=null and params.realName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> real_name = #{params.realName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> real_name LIKE CONCAT(#{params.realName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> real_name LIKE CONCAT('%', #{params.realName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> real_name LIKE CONCAT('%', #{params.realName}, '%') </if>
+                </if>
+                <if test="params.nickName!=null and params.nickName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> nick_name = #{params.nickName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> nick_name LIKE CONCAT(#{params.nickName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> nick_name LIKE CONCAT('%', #{params.nickName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> nick_name LIKE CONCAT('%', #{params.nickName}, '%') </if>
+                </if>
+                <if test="params.phone!=null and params.phone!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> phone = #{params.phone} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> phone LIKE CONCAT(#{params.phone}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> phone LIKE CONCAT('%', #{params.phone}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> phone LIKE CONCAT('%', #{params.phone}, '%') </if>
+                </if>
+                <if test="params.sex!=null and params.sex!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> sex = #{params.sex} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> sex LIKE CONCAT(#{params.sex}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> sex LIKE CONCAT('%', #{params.sex}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> sex LIKE CONCAT('%', #{params.sex}, '%') </if>
+                </if>
+                <if test="params.nation!=null and params.nation!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> nation = #{params.nation} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> nation LIKE CONCAT(#{params.nation}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> nation LIKE CONCAT('%', #{params.nation}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> nation LIKE CONCAT('%', #{params.nation}, '%') </if>
+                </if>
+                <if test="params.nativePlace!=null and params.nativePlace!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> native_place = #{params.nativePlace} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> native_place LIKE CONCAT(#{params.nativePlace}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> native_place LIKE CONCAT('%', #{params.nativePlace}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> native_place LIKE CONCAT('%', #{params.nativePlace}, '%') </if>
+                </if>
+                <if test="params.idCardNo!=null and params.idCardNo!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> id_card_no = #{params.idCardNo} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> id_card_no LIKE CONCAT(#{params.idCardNo}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> id_card_no LIKE CONCAT('%', #{params.idCardNo}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> id_card_no LIKE CONCAT('%', #{params.idCardNo}, '%') </if>
+                </if>
+                <if test="params.birthdayFrom!=null and params.birthdayTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    birthday&gt;=#{params.birthdayFrom}
+                </if>
+                <if test="params.birthdayFrom==null and params.birthdayTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    birthday&lt;=#{params.birthdayTo}
+                </if>
+                <if test="params.birthdayFrom!=null and params.birthdayTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (birthday BETWEEN #{params.birthdayFrom} AND #{params.birthdayTo})
+                </if>
+                <if test="params.wchat!=null and params.wchat!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> wchat = #{params.wchat} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> wchat LIKE CONCAT(#{params.wchat}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> wchat LIKE CONCAT('%', #{params.wchat}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> wchat LIKE CONCAT('%', #{params.wchat}, '%') </if>
+                </if>
+                <if test="params.imageUrl!=null and params.imageUrl!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> image_url = #{params.imageUrl} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> image_url LIKE CONCAT(#{params.imageUrl}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> image_url LIKE CONCAT('%', #{params.imageUrl}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> image_url LIKE CONCAT('%', #{params.imageUrl}, '%') </if>
+                </if>
+                <if test="params.title!=null and params.title!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> title = #{params.title} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> title LIKE CONCAT(#{params.title}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> title LIKE CONCAT('%', #{params.title}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> title LIKE CONCAT('%', #{params.title}, '%') </if>
+                </if>
+                <if test="params.departmentId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> department_id = #{params.departmentId}
+                </if>
+                <if test="params.departmentName!=null and params.departmentName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> department_name = #{params.departmentName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> department_name LIKE CONCAT(#{params.departmentName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> department_name LIKE CONCAT('%', #{params.departmentName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> department_name LIKE CONCAT('%', #{params.departmentName}, '%') </if>
+                </if>
+                <if test="params.postId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> post_id = #{params.postId}
+                </if>
+                <if test="params.postName!=null and params.postName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> post_name = #{params.postName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> post_name LIKE CONCAT(#{params.postName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> post_name LIKE CONCAT('%', #{params.postName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> post_name LIKE CONCAT('%', #{params.postName}, '%') </if>
+                </if>
+                <if test="params.powersId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> powers_id = #{params.powersId}
+                </if>
+                <if test="params.powersName!=null and params.powersName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> powers_name = #{params.powersName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> powers_name LIKE CONCAT(#{params.powersName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> powers_name LIKE CONCAT('%', #{params.powersName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> powers_name LIKE CONCAT('%', #{params.powersName}, '%') </if>
+                </if>
+                <if test="params.direction!=null and params.direction!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> direction = #{params.direction} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> direction LIKE CONCAT(#{params.direction}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> direction LIKE CONCAT('%', #{params.direction}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> direction LIKE CONCAT('%', #{params.direction}, '%') </if>
+                </if>
+                <if test="params.introduction!=null and params.introduction!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> introduction = #{params.introduction} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> introduction LIKE CONCAT(#{params.introduction}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> introduction LIKE CONCAT('%', #{params.introduction}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> introduction LIKE CONCAT('%', #{params.introduction}, '%') </if>
+                </if>
+                <if test="params.isDelete!=null and params.isDelete!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> is_delete = #{params.isDelete} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> is_delete LIKE CONCAT(#{params.isDelete}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> is_delete LIKE CONCAT('%', #{params.isDelete}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> is_delete LIKE CONCAT('%', #{params.isDelete}, '%') </if>
+                </if>
+                <if test="params.editorId!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if> editor_id = #{params.editorId}
+                </if>
+                <if test="params.editorName!=null and params.editorName!=''">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@NONE"> editor_name = #{params.editorName} </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@LEFT"> editor_name LIKE CONCAT(#{params.editorName}, '%') </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@RIGHT"> editor_name LIKE CONCAT('%', #{params.editorName}) </if>
+                    <if test="params.likeMode==@com.cnuip.base.base.LikeModeEnum@ALL"> editor_name LIKE CONCAT('%', #{params.editorName}, '%') </if>
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&gt;=#{params.createdTimeFrom}
+                </if>
+                <if test="params.createdTimeFrom==null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    created_time&lt;=#{params.createdTimeTo}
+                </if>
+                <if test="params.createdTimeFrom!=null and params.createdTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (created_time BETWEEN #{params.createdTimeFrom} AND #{params.createdTimeTo})
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo==null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&gt;=#{params.updatedTimeFrom}
+                </if>
+                <if test="params.updatedTimeFrom==null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    updated_time&lt;=#{params.updatedTimeTo}
+                </if>
+                <if test="params.updatedTimeFrom!=null and params.updatedTimeTo!=null">
+                    <if test="params.useOr"> OR </if><if test="!params.useOr"> AND </if>
+                    (updated_time BETWEEN #{params.updatedTimeFrom} AND #{params.updatedTimeTo})
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="orderbystr">
+        <if test="params!=null and params.orderBy!=null and params.orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </sql>
+
+    <!-- 已测试 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mbr_user(organization_id,organization_name,username,password,real_name,nick_name,phone,sex,nation,native_place,id_card_no,birthday,wchat,image_url,title,department_id,department_name,post_id,post_name,powers_id,powers_name,direction,introduction,honor,is_delete,editor_id,editor_name)
+        VALUES(#{organizationId},#{organizationName},#{username},#{password},#{realName},#{nickName},#{phone},#{sex},#{nation},#{nativePlace},#{idCardNo},#{birthday},#{wchat},#{imageUrl},#{title},#{departmentId},#{departmentName},#{postId},#{postName},#{powersId},#{powersName},#{direction},#{introduction},#{honor},#{isDelete},#{editorId},#{editorName})
+    </insert>
+
+    <!-- 已测试 -->
+    <delete id="deleteByKey">
+        DELETE FROM mbr_user WHERE id=#{id}
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="deleteByField">
+        DELETE FROM mbr_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+    </delete>
+
+    <!-- 已测试 -->
+    <delete id="delete">
+        DELETE FROM mbr_user
+        <include refid="wherestr"></include>
+    </delete>
+
+    <!-- 已测试 -->
+    <update id="updateFieldByKey">
+        UPDATE mbr_user
+        <include refid="setfieldstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 已测试 -->
+    <update id="updateByKey">
+        UPDATE mbr_user
+        <include refid="setstr"></include>
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE mbr_user
+        <include refid="setstr"></include>
+        <include refid="wherestr"></include>
+    </update>
+
+    <!-- 已测试 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(1) FROM mbr_user
+        <include refid="wherestr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByKey" resultMap="baseMap">
+        SELECT * FROM mbr_user WHERE id=#{id} LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOneByField" resultMap="baseMap">
+        SELECT * FROM mbr_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+         LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectOne" resultMap="baseMap">
+        SELECT * FROM mbr_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+        LIMIT 1
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectMany" resultMap="baseMap">
+        SELECT * FROM mbr_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="selectManyByField" resultMap="baseMap">
+        SELECT * FROM mbr_user WHERE
+        <if test="valueFrom==null and valueTo==null">
+            1!=1
+        </if>
+        <if test="valueFrom!=null and valueTo!=null">
+            ${field} BETWEEN #{valueFrom} AND #{valueTo}
+        </if>
+        <if test="valueFrom!=null and valueTo==null">
+            ${field} = #{valueFrom}
+        </if>
+        <if test="valueFrom==null and valueTo!=null">
+            ${field} = #{valueTo}
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${params.orderBy}
+        </if>
+    </select>
+
+    <!-- 已测试 -->
+    <select id="getAll" resultMap="baseMap">
+        SELECT * FROM mbr_user
+        <include refid="wherestr"></include>
+        <include refid="orderbystr"></include>
+    </select>
+</mapper>

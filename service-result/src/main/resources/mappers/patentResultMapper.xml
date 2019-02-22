@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.result.repository.PatentResultMapper">
+
+    <select id="searchStatisticsByTeam" resultType="java.util.Map">
+        select team_id,team_name,count(id) as number from rlt_patent_result
+        <where>
+            <if test="params.organizationId!=null">
+                and organization_id = #{params.organizationId}
+            </if>
+            <if test="params.editorId!=null">
+                and editor_id = #{params.editorId}
+            </if>
+        </where>
+        group by team_id
+        order by number desc
+    </select>
+
+    <select id="searchStatisticsByUser" resultType="java.util.Map">
+        select editor_id,editor_name,count(id) as number from rlt_patent_result where organization_id = #{orgId} group by editor_id
+        order by number desc
+    </select>
+</mapper>

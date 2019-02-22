@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: service-admin-ui
+#  security:
+#    user:
+#      name: admin
+#      password: admin123
+
+server:
+  port: 9090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}
+    prefer-ip-address: true
+    status-page-url-path: /
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      #      defaultZone: http://172.16.250.212:8761/eureka/,http://172.16.250.213:8761/eureka/
+      defaultZone: http://192.168.20.51:8761/eureka/

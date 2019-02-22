@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnuip.console.repository.DepartmentMapper">
+    <resultMap type="com.cnuip.base.domain.console.Department" id="extendMap" extends="com.cnuip.console.repository.base.DepartmentBaseMapper.baseMap">
+    </resultMap>
+
+    <select id="getExamineList" resultMap="extendMap">
+        select * from sys_department
+        where id in
+        <foreach collection="deptIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
