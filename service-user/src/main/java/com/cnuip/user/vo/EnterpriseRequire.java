@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Data
 public class EnterpriseRequire {
+
     private int id;
     private String companyName;
     //企业信息id
